@@ -7,7 +7,7 @@
 
         {
             "cwd": "${workspaceRoot}",
-            "executable": "./Obj/Vigorously_001.elf",
+            "executable": "./Obj/Vigorously_000.elf",
             "name": "Cortex Debug",
             "request": "launch",
             "type": "cortex-debug",

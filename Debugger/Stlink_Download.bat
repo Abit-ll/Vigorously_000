@@ -1,7 +1,7 @@
 @echo off
 
 set dir_path=F:\\Free\\Vigorously_001\\Src\\Debugger
-set image=F:\\Free\\Vigorously_001\\Src\\Obj\\Vigorously_001.bin
+set image=F:\\Free\\Vigorously_001\\Src\\Obj\\Vigorously_000.bin
 set stlink_cfg=F:\\Free\\Vigorously_001\\Src\\Debugger\\stlink.cfg
 set stm32_cfg=F:\\Free\\Vigorously_001\\Src\\Debugger\\stm32f4x.cfg
 
