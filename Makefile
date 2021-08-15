@@ -5,6 +5,8 @@ BUILD_DIR = Obj
 # C源文件
 C_SOURCES =  \
 Src/USER/src/main.c \
+Src/USER/src/vigorously_smart_car_ctrl.c \
+Src/USER/src/vigorously_smart_car_ultrasonic_ranging.c \
 Src/BSP/src/bsp_abit_led.c \
 Src/CORE/src/system_stm32f4xx.c \
 Src/FWLIB/src/stm32f4xx_gpio.c \
@@ -144,7 +146,7 @@ LDSCRIPT = Src/CORE/src/STM32F417IG_FLASH.ld
 LIBS = -lc
 LIBDIR = 
 #LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
-LDFLAGS = $(MCU) --specs=nosys.specs --specs=nano.specs -std=c99 -u_printf_float -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) --specs=nosys.specs --specs=nano.specs -std=c99 -u _printf_float -u _scanf_float -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
  
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
