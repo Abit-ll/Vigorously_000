@@ -4,9 +4,6 @@ BUILD_DIR = Obj
 
 # C源文件
 C_SOURCES =  \
-Src/USER/src/main.c \
-Src/USER/src/vigorously_smart_car_ctrl.c \
-Src/USER/src/vigorously_smart_car_ultrasonic_ranging.c \
 Src/BSP/src/bsp_abit_led.c \
 Src/CORE/src/system_stm32f4xx.c \
 Src/FWLIB/src/stm32f4xx_gpio.c \
@@ -47,12 +44,15 @@ Src/FWLIB/src/stm32f4xx_tim.c \
 Src/FWLIB/src/stm32f4xx_wwdg.c \
 Src/Bsp/src/bsp_abit_usart.c \
 Src/Bsp/src/bsp_abit_printf.c \
-Src/Bsp/src/bsp_abit_delay.c
- 
+Src/Bsp/src/bsp_abit_delay.c \
+Src/USER/src/main.c \
+Src/USER/src/vigorously_smart_car_ctrl.c \
+Src/USER/src/vigorously_smart_car_ultrasonic.c \
+Src/USER/src/vigorously_smart_car_oled_display.c \
+Src/USER/src/vigorously_smart_car_wifi.c
+
 ######################################
- 
- 
- 
+
 # ASM sources
 ASM_SOURCES =  \
 Src/CORE/src/startup_stm32f40_41xxx.s

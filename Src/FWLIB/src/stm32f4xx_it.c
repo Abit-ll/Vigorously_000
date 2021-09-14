@@ -164,14 +164,12 @@ void DebugMon_Handler(void)
   * @}
   */ 
 
-void USART1_IRQHandler(void)
+void USART3_IRQHandler(void)
 {
-  
+  if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+  {
+
+  }
 }
-
-// void TIM5_IRQHandler(void)
-// {
-
-// }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

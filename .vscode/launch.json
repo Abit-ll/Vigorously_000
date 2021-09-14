@@ -11,7 +11,7 @@
             "name": "Cortex Debug",
             "request": "launch",
             "type": "cortex-debug",
-            "svdFile": "C:\\Users\\L L\\.vscode\\extensions\\marus25.cortex-debug-dp-stm32f4-1.0.0\\data\\STM32F401x.svd",
+            "svdFile": "F:\\VSCode extensions\\extensions\\marus25.cortex-debug-dp-stm32f4-1.0.0\\data\\STM32F401x.svd",
             "servertype": "openocd",
             "configFiles": [  
                 "./Debugger/stlink.cfg",

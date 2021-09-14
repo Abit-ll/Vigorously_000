@@ -6,6 +6,9 @@
 #include "bsp_aibt_printf.h"
 #include "bsp_abit_delay.h"
 #include "vigorously_smart_car_ctrl.h"
-#include "vigorously_smart_car_ultrasonic_ranging.h"
+#include "vigorously_smart_car_ultrasonic.h"
+#include "vigorously_smart_car_oled_display.h"
+
+#define VIGOROUSLY_SMART_CAR_SAFE_DISTANCE       15
 
 #endif //__MAIN_H
