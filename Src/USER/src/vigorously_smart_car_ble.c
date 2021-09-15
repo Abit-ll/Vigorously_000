@@ -6,6 +6,11 @@ void vigorously_smart_car_ble_init(uint32_t baud)
     USART_InitTypeDef USART_InitStruct;
     NVIC_InitTypeDef NVIC_InitStruct;
 
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE);
+
+    GPIO_PinAFConfig(VIGOROUSLY_SAMRT_CAR_BLE_GPIOX, GPIO_PinSource10, GPIO_AF_UART4);
+
     GPIO_InitStruct.GPIO_Pin = VIGOROUSLY_SMART_CAR_BLE_TX;
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
@@ -27,8 +32,6 @@ void vigorously_smart_car_ble_init(uint32_t baud)
     USART_InitStruct.USART_StopBits = USART_StopBits_1;
     USART_InitStruct.USART_WordLength = USART_WordLength_8b;
     USART_Init(VIGOROUSLY_SAMRT_CAR_BLE_USARTX, &USART_InitStruct);
-    USART_ITConfig(VIGOROUSLY_SAMRT_CAR_BLE_USARTX, USART_IT_RXNE, ENABLE);
-    USART_Cmd(VIGOROUSLY_SAMRT_CAR_BLE_USARTX, ENABLE);
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     NVIC_InitStruct.NVIC_IRQChannel = UART4_IRQn;
@@ -36,4 +39,7 @@ void vigorously_smart_car_ble_init(uint32_t baud)
     NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStruct.NVIC_IRQChannelSubPriority = 1;
     NVIC_Init(&NVIC_InitStruct);
+
+    USART_ITConfig(VIGOROUSLY_SAMRT_CAR_BLE_USARTX, USART_IT_RXNE, ENABLE);
+    USART_Cmd(VIGOROUSLY_SAMRT_CAR_BLE_USARTX, ENABLE);
 }

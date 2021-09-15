@@ -164,11 +164,11 @@ void DebugMon_Handler(void)
   * @}
   */ 
 
-void USART3_IRQHandler(void)
+void UART4_IRQHandler(void)
 {
-  if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+  if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)
   {
-
+      
   }
 }
 
