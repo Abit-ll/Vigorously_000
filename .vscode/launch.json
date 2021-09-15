@@ -7,15 +7,15 @@
 
         {
             "cwd": "${workspaceRoot}",
-            "executable": "./Obj/Vigorously_000.elf",
+            "executable": "./Obj/Smart_Car.elf",
             "name": "Cortex Debug",
             "request": "launch",
             "type": "cortex-debug",
-            "svdFile": "F:\\VSCode extensions\\extensions\\marus25.cortex-debug-dp-stm32f4-1.0.0\\data\\STM32F401x.svd",
+            "svdFile": "F:\\VsCode Extension\\extensions\\marus25.cortex-debug-dp-stm32f4-1.0.0\\data\\STM32F401x.svd",
             "servertype": "openocd",
             "configFiles": [  
-                "./Debugger/stlink.cfg",
-                "./Debugger/stm32f4x.cfg"
+                "./Debugger/jlink_swd.cfg",
+                "./Debugger/stm32f1x.cfg"
             ]
         },
         {

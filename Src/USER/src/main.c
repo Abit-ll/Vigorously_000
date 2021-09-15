@@ -27,6 +27,7 @@ int main()
 
     while(1) 
     {
+        /*  */
         /* 先超声波测距，如果距离小于15cm，小车静止不动 */
         distance = vigorously_smart_car_ultrasonic_get_distance();
 
@@ -39,6 +40,7 @@ int main()
         if(vigorously_smart_car_mode == Manual_Mode)
         {
             /* 手动运行 */
+            /* wifi or ble */
             if((direction == go_stop) || (distance <= VIGOROUSLY_SMART_CAR_SAFE_DISTANCE))
                 vigorously_smart_car_stop(0);
             else if((direction == move_forward) && (distance > VIGOROUSLY_SMART_CAR_SAFE_DISTANCE))

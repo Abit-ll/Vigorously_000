@@ -1,4 +1,4 @@
-TARGET = Vigorously_000
+TARGET = Smart_Car
 
 BUILD_DIR = Obj
 
