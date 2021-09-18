@@ -6,12 +6,13 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
 
-#define VIGOROUSLY_SMART_CAR_BLE_TX             GPIO_Pin_10
-#define VIGOROUSLY_SMART_CAR_BLE_RX             GPIO_Pin_11
-#define VIGOROUSLY_SMART_CAR_BLE_STATE          
+#include "bsp_aibt_printf.h"
 
-#define VIGOROUSLY_SAMRT_CAR_BLE_GPIOX          GPIOC
+extern uint16_t recv_buff[100];
+extern uint8_t recv_len;
 
-#define VIGOROUSLY_SAMRT_CAR_BLE_USARTX         UART4
+void vigorously_smart_car_ble_send(USART_TypeDef* USARTx, uint16_t *ch);
+
+void vigorously_smart_car_ble_init(uint32_t baud);
 
 #endif //__VIGOROUSLY_SMART_CAR_BLE_H

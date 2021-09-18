@@ -4,7 +4,6 @@ BUILD_DIR = Obj
 
 # C源文件
 C_SOURCES =  \
-Src/BSP/src/bsp_abit_led.c \
 Src/CORE/src/system_stm32f4xx.c \
 Src/FWLIB/src/stm32f4xx_gpio.c \
 Src/FWLIB/src/stm32f4xx_rcc.c \
@@ -46,17 +45,14 @@ Src/Bsp/src/bsp_abit_usart.c \
 Src/Bsp/src/bsp_abit_printf.c \
 Src/Bsp/src/bsp_abit_delay.c \
 Src/USER/src/main.c \
-Src/USER/src/vigorously_smart_car_ctrl.c \
-Src/USER/src/vigorously_smart_car_ultrasonic.c \
-Src/USER/src/vigorously_smart_car_oled_display.c \
-Src/USER/src/vigorously_smart_car_wifi.c
+Src/USER/src/vigorously_smart_car_ble.c
 
 ######################################
 
 # ASM sources
 ASM_SOURCES =  \
 Src/CORE/src/startup_stm32f40_41xxx.s
- 
+
 ######################################
 # building variables
 ######################################
@@ -64,8 +60,7 @@ Src/CORE/src/startup_stm32f40_41xxx.s
 DEBUG = 1
 # optimization
 OPT = -Og
- 
- 
+
 #######################################
 # binaries
 #######################################
@@ -83,33 +78,31 @@ SZ = $(PREFIX)size
 endif
 HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
- 
+
 #######################################
 # CFLAGS
 #######################################
 # cpu
 CPU = -mcpu=cortex-m4
- 
+
 # fpu
 # NONE for Cortex-M0/M0+/M3
 FPU = -mfloat-abi=hard -mfpu=fpv4-sp-d16
  
 # float-abi
- 
- 
+
 # mcu
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
- 
+
 # macros for gcc
 # AS defines
 AS_DEFS = 
- 
+
 # C defines   宏定义标志
 C_DEFS =  \
 -DUSE_STDPERIPH_DRIVER \
--DSTM32F40_41xxx \
-# -D__GNUC__
- 
+-DSTM32F40_41xxx
+
 # AS includes
 AS_INCLUDES = 
  
@@ -118,40 +111,36 @@ C_INCLUDES =  \
 -ISrc/BSP/inc \
 -ISrc/CORE/inc \
 -ISrc/FWLIB/inc \
--ISrc/USER/inc \
--ISrc/FreeRTOS/inc
+-ISrc/USER/inc
  
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
- 
+
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
- 
+
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
 endif
- 
- 
+
 # Generate dependency information
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
- 
- 
+
 #######################################
 # LDFLAGS
 #######################################
 # link script  链接配置文件
 LDSCRIPT = Src/CORE/src/STM32F417IG_FLASH.ld
- 
+
 # libraries
 #LIBS = -lc -lm -lnosys 
 LIBS = -lc
 LIBDIR = 
 #LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 LDFLAGS = $(MCU) --specs=nosys.specs --specs=nano.specs -std=c99 -u _printf_float -u _scanf_float -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
- 
+
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
- 
- 
+
 #######################################
 # build the application
 #######################################
@@ -161,32 +150,32 @@ vpath %.c $(sort $(dir $(C_SOURCES)))
 # list of ASM program objects
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
- 
+
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
- 
+
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
- 
+
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
- 
+
 $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 	$(HEX) $< $@
 	
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
-	$(BIN) $< $@	
-	
+	$(BIN) $< $@
+
 $(BUILD_DIR):
-	mkdir $@		
- 
+	mkdir $@
+
 #######################################
 # clean up
 #######################################
 clean:
 	-rm -fR $(BUILD_DIR)
-  
+
 #######################################
 # dependencies
 #######################################

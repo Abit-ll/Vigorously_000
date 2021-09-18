@@ -29,6 +29,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
+#include "main.h"
  
 
 /** @addtogroup Template_Project
@@ -164,11 +165,36 @@ void DebugMon_Handler(void)
   * @}
   */ 
 
-void UART4_IRQHandler(void)
+void USART1_IRQHandler(void)
 {
-  if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)
+  if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
   {
-      
+    
+  }
+}
+
+void USART2_IRQHandler(void)
+{
+  if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
+  {
+    
+  }
+}
+
+void USART3_IRQHandler(void)
+{
+  if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+  {
+    
+  }
+}
+
+void USART6_IRQHandler(void)
+{
+  if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET)
+  {
+      recv_buff[recv_len] = USART_ReceiveData(USART6);
+      recv_len++;
   }
 }
 
