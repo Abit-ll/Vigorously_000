@@ -60,7 +60,7 @@ void bsp_abit_delay_ms(uint16_t nms)
     uint32_t ts = 0;
     uint32_t start = 0;
 
-    ts = nms * (SystemCoreClock / 1000000) * 1000;
+    ts = nms * (SystemCoreClock / 1000000) * 1000;   /* 最大毫秒数：25,565 */
     start = bsp_abit_get_count();
 
     while(bsp_abit_get_count() - start < ts);
