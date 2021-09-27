@@ -185,7 +185,13 @@ void USART3_IRQHandler(void)
 {
   if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
   {
+<<<<<<< HEAD
     
+=======
+    USART_ClearITPendingBit(USART3, USART_IT_RXNE);
+    ble_recv_buff[ble_recv_len] = USART_ReceiveData(USART3);
+    ble_recv_len++;
+>>>>>>> 5586841... add ble
   }
 }
 
