@@ -177,7 +177,9 @@ void USART2_IRQHandler(void)
 {
   if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
   {
-    
+    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+    wifi_recv_buff[wifi_recv_len] = USART_ReceiveData(USART2);
+    wifi_recv_len++;
   }
 }
 
@@ -185,13 +187,9 @@ void USART3_IRQHandler(void)
 {
   if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
   {
-<<<<<<< HEAD
-    
-=======
     USART_ClearITPendingBit(USART3, USART_IT_RXNE);
     ble_recv_buff[ble_recv_len] = USART_ReceiveData(USART3);
     ble_recv_len++;
->>>>>>> 5586841... add ble
   }
 }
 
@@ -199,8 +197,7 @@ void USART6_IRQHandler(void)
 {
   if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET)
   {
-      recv_buff[recv_len] = USART_ReceiveData(USART6);
-      recv_len++;
+
   }
 }
 

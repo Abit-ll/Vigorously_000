@@ -1,9 +1,7 @@
 #include "vigorously_smart_car_ble.h"
 
-<<<<<<< HEAD
 uint16_t recv_buff[100] = {0x00, };
 uint8_t recv_len = 0;
-=======
 uint8_t ble_recv_buff[35] = {0x00, };
 uint8_t ble_recv_len = 0;
 
@@ -61,4 +59,3 @@ void vigorously_smart_car_ble_config()
 
     while(GPIO_ReadInputDataBit(VIGOROUSLY_SMART_CAR_BLE_STATE_GPIOX, VIGOROUSLY_SMART_CAR_BLE_STATE_PIN) != 1);
 }
->>>>>>> 5586841... add ble

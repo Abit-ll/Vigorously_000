@@ -6,14 +6,10 @@ int main()
     uint8_t distance_buff[10] = {0x00, };
     uint8_t i = 0;
     // Vigorously_Smart_Car_Direction direction;
-<<<<<<< HEAD
-    // uint16_t speed = 0;
-=======
     uint16_t speed = 0;
     uint8_t *recv_buff;
     uint8_t wifi_connect = 0;
     uint8_t *connect_msg = "AT+CWJAP_DEF=\"";
->>>>>>> 5586841... add ble
 
     // vigorously_smart_car_mode = Manual_Mode;
 
@@ -31,11 +27,6 @@ int main()
     // vigorously_smart_car_oled_display_show_string(0, 24, "SMART CAR", 16);
     // vigorously_smart_car_oled_display_show_string(0, 40, "distance:", 12);
     // vigorously_smart_car_oled_display_refresh_gram();
-<<<<<<< HEAD
-
-    // vigorously_smart_car_ble_send(VIGOROUSLY_SAMRT_CAR_BLE_USARTX, (uint16_t *)"Hello Smart");
-    // bsp_abit_delay_ms(2000);
-=======
 
     vigorously_smart_car_ip = malloc(20 * sizeof(uint8_t));
     memset(vigorously_smart_car_ip, 0, 20 * sizeof(uint8_t));
@@ -80,7 +71,6 @@ int main()
 
 
     // }
->>>>>>> 5586841... add ble
 
     while(1) 
     {
@@ -97,8 +87,6 @@ int main()
         // vigorously_smart_car_oled_display_refresh_gram();
         // memset(distance_buff, 0, 10 * sizeof(uint8_t));
 
-<<<<<<< HEAD
-=======
         bsp_abit_delay_ms(1000);
 
         if(ble_recv_len > 0)
@@ -107,8 +95,6 @@ int main()
             bsp_abit_delay_ms(1000);
             bsp_abit_reset_recv_buff(&ble_recv_len, ble_recv_buff, 35);
         }
-
->>>>>>> 5586841... add ble
         // if(vigorously_smart_car_mode == Manual_Mode)
         // {
         //     /* 手动运行 */

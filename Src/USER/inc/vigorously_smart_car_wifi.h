@@ -7,15 +7,12 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
 
+#include "bsp_abit_sys.h"
+
 typedef enum
 {
     Manual_Mode = 0,
     Auto_Mode
-<<<<<<< HEAD
-} Smart_Car_Mode;
-
-extern Smart_Car_Mode vigorously_smart_car_mode;
-=======
 } Vigorously_Smart_Car_Mode;
 
 typedef enum
@@ -33,6 +30,8 @@ typedef enum{
     psswd
 }Vigorously_Smart_Car_DN_MSG;
 
+#define VIGOROUSLY_SMART_CAR_WIFI_USARTX        USART2
+
 extern Vigorously_Smart_Car_Mode vigorously_smart_car_mode;
 
 extern uint8_t wifi_send_buff[20];
@@ -47,6 +46,5 @@ void vigorously_smart_car_set_ap_info(uint8_t *ap_info, uint8_t size);
 void vigorously_smart_car_wifi_config(uint8_t *connet);
 
 uint8_t vigorously_smart_car_wifi_init();
->>>>>>> 5586841... add ble
 
 #endif //__VIGOROUSLY_SMART_CAR_WIFI_H
