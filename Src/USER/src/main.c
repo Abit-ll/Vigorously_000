@@ -8,6 +8,8 @@ int main()
     // Vigorously_Smart_Car_Direction direction;
     uint16_t speed = 0;
     uint8_t *recv_buff;
+    uint8_t wifi_connect = 0;
+    uint8_t *connect_msg = "AT+CWJAP_DEF=\"";
 
     // vigorously_smart_car_mode = Manual_Mode;
 
@@ -23,16 +25,50 @@ int main()
     // vigorously_smart_car_oled_display_show_string(0, 24, "SMART CAR", 16);
     // vigorously_smart_car_oled_display_show_string(0, 40, "distance:", 12);
     // vigorously_smart_car_oled_display_refresh_gram();
-    printf("Hello Smart Car!\r\n");
-    bsp_abit_delay_ms(1000);
 
     vigorously_smart_car_ip = malloc(20 * sizeof(uint8_t));
     memset(vigorously_smart_car_ip, 0, 20 * sizeof(uint8_t));
 
-    recv_buff = malloc(15 * sizeof(uint8_t));
-    memset(vigorously_smart_car_ip, 0, 15 * sizeof(uint8_t));
+    recv_buff = malloc(20 * sizeof(uint8_t));
+    memset(recv_buff, 0, 20 * sizeof(uint8_t));
 
-    vigorously_smart_car_wifi_config();
+    wifi_ssid = malloc(20 * sizeof(uint8_t));
+    memset(wifi_ssid, 0, 20 * sizeof(uint8_t));
+
+    wifi_psswd = malloc(20 * sizeof(uint8_t));
+    memset(wifi_psswd, 0, 20 * sizeof(uint8_t));
+
+    
+    vigorously_smart_car_ble_config();
+
+    while(wifi_connect == 0)
+    {
+        // if(vigorously_smart_car_wifi_init() == 1)
+        // {
+            if(ble_recv_len > 0)
+            {
+                printf("ble_recv_buff: %s\r\n", ble_recv_buff);
+                vigorously_smart_car_ble_msg_proc(ble_recv_buff);
+                // vigorously_smart_car_wifi_config(connect_msg);
+                // wifi_connect = 1;
+
+                ble_recv_len = 0;
+            }
+        // }
+    }
+
+    /*
+     *没有连接到路由器时，通过ble获取ssid和pwd，连接到路由器
+     */
+    // while(wifi_connect == 0)
+    // {
+    //     vigorously_smart_car_ble_config();
+
+    //     printf("Hello Smart Car!\r\n");
+    //     bsp_abit_delay_ms(1000);
+
+
+    // }
 
     while(1) 
     {
@@ -47,13 +83,11 @@ int main()
 
         bsp_abit_delay_ms(1000);
 
-        if(wifi_recv_len > 0)
+        if(ble_recv_len > 0)
         {
-            bsp_abit_string_cpy(wifi_recv_buff, recv_buff, ":", wifi_recv_len);
-            printf("%s\r\n", recv_buff);
+            printf("%s\r\n", ble_recv_buff);
             bsp_abit_delay_ms(1000);
-            memset(vigorously_smart_car_ip, 0, 10 * sizeof(uint8_t));
-            vigorously_smart_car_wifi_reset_recv_buff();
+            bsp_abit_reset_recv_buff(&ble_recv_len, ble_recv_buff, 35);
         }
 
         // if(vigorously_smart_car_mode == Manual_Mode)

@@ -1,6 +1,38 @@
 #include "bsp_abit_sys.h"
 
-uint8_t bsp_abit_string_cpy(uint8_t *src, uint8_t *desc, uint8_t *obj, uint8_t srclen)
+uint8_t bsp_abit_char_2_hex(uint8_t *src)
+{
+    uint8_t desc;
+
+    if((*src >= '0') && (*src <= '9'))
+        desc = *src - 0x30;
+    else if((*src >= 'a') && (*src <= 'f'))
+        desc = *src - 0x57;
+    else if((*src >= 'A') && (*src <= 'F'))
+        desc = *src - 0x37;
+
+    return desc;
+}
+
+uint8_t bsp_abit_hex_2_char(uint8_t *src)
+{
+    uint8_t desc;
+
+    if((*src >= 0) && (*src <= 9))
+        desc = *src + 0x30;
+    else if((*src >= 0xA) && (*src <= 0xF))
+        desc = *src + 0x37;
+    
+    return desc;
+}
+
+void bsp_abit_reset_recv_buff(uint8_t *recv_len, uint8_t *recv_buff, uint8_t size)
+{
+    *recv_len = 0;
+    memset(recv_buff, 0, size * sizeof(uint8_t));
+}
+
+uint8_t bsp_abit_string_cpy(uint8_t *src, uint8_t *desc, uint8_t *obj, uint8_t *end, uint8_t srclen)
 {
     uint8_t i = 0;
     uint8_t j = 0;
@@ -23,7 +55,7 @@ uint8_t bsp_abit_string_cpy(uint8_t *src, uint8_t *desc, uint8_t *obj, uint8_t s
             }
             if(j == relay_size)
             {
-                while(src[i + j] != '\"')
+                while(src[i + j] != *end)
                 {
                     k++;
                     j++;

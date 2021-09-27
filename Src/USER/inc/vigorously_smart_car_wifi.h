@@ -20,22 +20,32 @@ typedef enum
 
 typedef enum
 {
-    Move = 1,
+    Mcu = 1,
+    Move,
     Ctrl_Type,
     Camera,
-    Speed
+    Speed,
+    DN
 }Vigorously_Smart_Car_Cmd_Type;
+
+typedef enum{
+    ssid = 1,
+    psswd
+}Vigorously_Smart_Car_DN_MSG;
 
 extern Vigorously_Smart_Car_Mode vigorously_smart_car_mode;
 
 extern uint8_t wifi_send_buff[20];
 extern uint8_t wifi_recv_buff[100];
 extern uint8_t *vigorously_smart_car_ip;
-
+extern uint8_t *wifi_ssid;
+extern uint8_t *wifi_psswd;
 extern uint8_t wifi_recv_len;
 
-void vigorously_smart_car_wifi_reset_recv_buff();
+void vigorously_smart_car_set_ap_info(uint8_t *ap_info, uint8_t size);
 
-void vigorously_smart_car_wifi_config();
+void vigorously_smart_car_wifi_config(uint8_t *connet);
+
+uint8_t vigorously_smart_car_wifi_init();
 
 #endif //__VIGOROUSLY_SMART_CAR_WIFI_H

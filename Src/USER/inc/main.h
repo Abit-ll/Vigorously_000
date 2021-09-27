@@ -8,6 +8,7 @@
 #include "vigorously_smart_car_ctrl.h"
 #include "vigorously_smart_car_ultrasonic.h"
 #include "vigorously_smart_car_oled_display.h"
+#include "vigorously_smart_car_ble.h"
 #include "vigorously_smart_car_wifi.h"
 
 #define VIGOROUSLY_SMART_CAR_SAFE_DISTANCE       15

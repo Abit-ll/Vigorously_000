@@ -162,7 +162,7 @@ void vigorously_smart_car_oled_display_set_pos(uint8_t x, uint8_t y)
 	vigorously_smart_car_oled_display_write_byte((x & 0x0F) | 0x01,VIGOROUSLY_SMART_CAR_OLED_CMD); 
 }  
 
-uint8_t vigorously_smart_car_oled_display_clear()
+void vigorously_smart_car_oled_display_clear()
 {
     uint8_t i;
     uint8_t n;

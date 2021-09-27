@@ -26,7 +26,7 @@ void vigorously_smart_car_oled_display_show_string(uint8_t x, uint8_t y, uint8_t
 
 void vigorously_smart_car_oled_display_refresh_gram();
 
-uint8_t vigorously_smart_car_oled_display_clear();
+void vigorously_smart_car_oled_display_clear();
 
 void vigorously_smart_car_oled_display_init();
 
