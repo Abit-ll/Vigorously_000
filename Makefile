@@ -46,8 +46,8 @@ Src/Bsp/src/bsp_abit_printf.c \
 Src/Bsp/src/bsp_abit_delay.c \
 Src/Bsp/src/bsp_abit_sys.c \
 Src/USER/src/main.c \
-Src/USER/src/vigorously_smart_car_wifi.c \
-Src/USER/src/vigorously_smart_car_ble.c
+Src/USER/src/vigorously_smart_car_ble.c \
+Src/USER/src/vigorously_smart_car_wifi.c
 
 ######################################
 

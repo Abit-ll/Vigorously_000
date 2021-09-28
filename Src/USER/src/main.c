@@ -70,6 +70,47 @@ int main()
 
     // }
 
+    recv_buff = malloc(20 * sizeof(uint8_t));
+    memset(recv_buff, 0, 20 * sizeof(uint8_t));
+
+    wifi_ssid = malloc(20 * sizeof(uint8_t));
+    memset(wifi_ssid, 0, 20 * sizeof(uint8_t));
+
+    wifi_psswd = malloc(20 * sizeof(uint8_t));
+    memset(wifi_psswd, 0, 20 * sizeof(uint8_t));
+
+    
+    vigorously_smart_car_ble_config();
+
+    while(wifi_connect == 0)
+    {
+        // if(vigorously_smart_car_wifi_init() == 1)
+        // {
+            if(ble_recv_len > 0)
+            {
+                printf("ble_recv_buff: %s\r\n", ble_recv_buff);
+                vigorously_smart_car_ble_msg_proc(ble_recv_buff);
+                // vigorously_smart_car_wifi_config(connect_msg);
+                // wifi_connect = 1;
+
+                ble_recv_len = 0;
+            }
+        // }
+    }
+
+    /*
+     *没有连接到路由器时，通过ble获取ssid和pwd，连接到路由器
+     */
+    // while(wifi_connect == 0)
+    // {
+    //     vigorously_smart_car_ble_config();
+
+    //     printf("Hello Smart Car!\r\n");
+    //     bsp_abit_delay_ms(1000);
+
+
+    // }
+
     while(1) 
     {
         /* 先超声波测距，如果距离小于15cm，小车静止不动 */
@@ -89,7 +130,6 @@ int main()
             bsp_abit_delay_ms(1000);
             bsp_abit_reset_recv_buff(&ble_recv_len, ble_recv_buff, 35);
         }
-
         // if(wifi_recv_len > 0)
         // {
         //     bsp_abit_string_cpy(wifi_recv_buff, recv_buff, ":", wifi_recv_len);
@@ -97,7 +137,6 @@ int main()
         //     bsp_abit_delay_ms(1000);
         //     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
         // }
-
         // if(vigorously_smart_car_mode == Manual_Mode)
         // {
         //     /* 手动运行 */

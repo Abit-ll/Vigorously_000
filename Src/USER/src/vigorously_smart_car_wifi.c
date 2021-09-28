@@ -44,14 +44,15 @@ void vigorously_smart_car_set_ap_info(uint8_t *ap_info, uint8_t size)
 
 void vigorously_smart_car_wifi_config(uint8_t *connet)
 {
-    while(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, connet, "WIFI CONNECTED", wifi_recv_buff, 18000, wifi_recv_len) != 0)
+    while(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, connet, "WIFI CONNECTED", wifi_recv_buff, 18000, wifi_recv_len) != 0)
     {
         bsp_abit_delay_ms(2000);
         if(bsp_abit_string_search(wifi_recv_buff, "WIFI CONNECTED", wifi_recv_len) == 0)
             break;
     }
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
-    while(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "AT+CIPSTA?\r\n", "+CIPSTA:ip:", wifi_recv_buff, 2000, wifi_recv_len) != 0)
+
+    while(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "AT+CIPSTA?\r\n", "+CIPSTA:ip:", wifi_recv_buff, 2000, wifi_recv_len) != 0)
     {
         bsp_abit_delay_ms(2000);
         if(bsp_abit_string_search(wifi_recv_buff, "+CIPSTA:ip:", wifi_recv_len) == 0)
@@ -62,7 +63,7 @@ void vigorously_smart_car_wifi_config(uint8_t *connet)
         }
     }
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
-    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "AT+CIPSTART=\"UDP\",\"0.0.0.0\",8080,9090\r\n", "CONNECTED", wifi_recv_buff,10, wifi_recv_len);
+    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "AT+CIPSTART=\"UDP\",\"0.0.0.0\",8080,9090\r\n", "CONNECTED", wifi_recv_buff,10, wifi_recv_len);
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
     bsp_abit_delay_ms(1000);
 }
@@ -72,25 +73,25 @@ uint8_t vigorously_smart_car_wifi_init()
     /* 配网操作 */
     while(1)
     {
-        if(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "AT\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len) == 0)
+        if(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "AT\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len) == 0)
             break;
     }
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
-    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "ATE0\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
+    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "ATE0\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
-    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "AT+CWMODE_DEF?\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
+    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "AT+CWMODE_DEF?\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
     bsp_abit_string_cpy(wifi_recv_buff, &cwmode, "+CWMODE_DEF:", "\r", wifi_recv_len);
 
     printf("+CWMODE_DEF: 0x%x\r\n", cwmode);
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
     if((cwmode - 0x30) != 3)
     {
-        bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "AT+CWMODE_DEF=3\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
+        bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "AT+CWMODE_DEF=3\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
     }
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
-    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "AT+CWAUTOCONN=0\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
+    bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "AT+CWAUTOCONN=0\r\n", "OK", wifi_recv_buff, 10, wifi_recv_len);
     bsp_abit_reset_recv_buff(&wifi_recv_len, wifi_recv_buff, 100);
-    while(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USART, "AT+CWJAP_DEF?\r\n", "OK", wifi_recv_buff, 2000, wifi_recv_len) != 0)
+    while(bsp_abit_send_at_cmd(VIGOROUSLY_SMART_CAR_WIFI_USARTX, "AT+CWJAP_DEF?\r\n", "OK", wifi_recv_buff, 2000, wifi_recv_len) != 0)
     {
         bsp_abit_delay_ms(2000);
         if(bsp_abit_string_search(wifi_recv_buff, "No AP", wifi_recv_len) == 0)
