@@ -1,14 +1,13 @@
 #include "bsp_abit_usart.h"
 
-void bsp_abit_usart_send(USART_TypeDef* USARTx, uint16_t *ch)
+void bsp_abit_usart_send(USART_TypeDef* USARTx, uint8_t *ch)
 {
     uint32_t i = 0;
 
     do
     {
-        printf("ch: 0x%x\r\n", ch[i]);
-        USART_SendData(USARTx, ch[i]);
-        i++;
+        USART_SendData(USARTx, ch[i++]);
+        while(USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);
     } while (ch[i] != '\0');
 }
 

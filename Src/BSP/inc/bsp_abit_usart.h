@@ -44,7 +44,7 @@
 #define VIGOROUSLY_SMART_CAR_GSM_USART6_GPIOX                   GPIOC
 #define VIGOROUSLY_SMART_CAR_GSM_USARTX                         USART6
 
-void bsp_abit_usart_send(USART_TypeDef* USARTx, uint16_t *ch);
+void bsp_abit_usart_send(USART_TypeDef* USARTx, uint8_t *ch);
 
 void bsp_abit_usart_init(uint32_t baud);
 

@@ -8,11 +8,19 @@
 
 #include "bsp_aibt_printf.h"
 
-extern uint16_t recv_buff[100];
-extern uint8_t recv_len;
+#include "vigorously_smart_car_wifi.h"
 
-void vigorously_smart_car_ble_send(USART_TypeDef* USARTx, uint16_t *ch);
+#define VIGOROUSLY_SMART_CAR_BLE_STATE_PIN              GPIO_Pin_2
+#define VIGOROUSLY_SMART_CAR_BLE_STATE_GPIOX            GPIOE
+#define VIGOROUSLY_SMART_CAR_BLE_STATE_CLOCK            RCC_AHB1Periph_GPIOE
 
-void vigorously_smart_car_ble_init(uint32_t baud);
+#define VIGOROUSLY_SMART_CAR_BLE_USARTX                 USART3
+
+extern uint8_t ble_recv_buff[35];
+extern uint8_t ble_recv_len;
+
+void vigorously_smart_car_ble_msg_proc(uint8_t *recv);
+
+void vigorously_smart_car_ble_config();
 
 #endif //__VIGOROUSLY_SMART_CAR_BLE_H
