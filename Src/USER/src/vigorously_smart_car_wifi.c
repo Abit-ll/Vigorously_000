@@ -20,10 +20,7 @@ void vigorously_smart_car_set_ap_info(uint8_t *ap_info, uint8_t size)
     {
         for(i = 2; i < size; i++)
         {
-            hight = ap_info[i] >> 4;
-            low = ap_info[i] & 0xF;
-            strcat(wifi_ssid, bsp_abit_hex_2_char(&hight));
-            strcat(wifi_ssid, bsp_abit_hex_2_char(&low));
+            wifi_ssid[i - 2] = ap_info[2];
         }
 
         printf("wifi ssid: %s\r\n", wifi_ssid);
@@ -32,10 +29,7 @@ void vigorously_smart_car_set_ap_info(uint8_t *ap_info, uint8_t size)
     {
         for(i = 2; i < size; i++)
         {
-            hight = ap_info[i] >> 4;
-            low = ap_info[i] & 0xF;
-            strcat(wifi_psswd, bsp_abit_hex_2_char(&hight));
-            strcat(wifi_psswd, bsp_abit_hex_2_char(&low));
+            wifi_psswd[i - 2] = ap_info[2];
         }
 
         printf("wifi psswd: %s\r\n", wifi_psswd);

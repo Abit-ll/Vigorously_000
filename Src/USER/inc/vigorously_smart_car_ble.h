@@ -19,20 +19,7 @@
 extern uint8_t ble_recv_buff[35];
 extern uint8_t ble_recv_len;
 
-void vigorously_smart_car_ble_msg_proc(uint8_t *recv);
-
-void vigorously_smart_car_ble_config();
-
-#define VIGOROUSLY_SMART_CAR_BLE_STATE_PIN              GPIO_Pin_2
-#define VIGOROUSLY_SMART_CAR_BLE_STATE_GPIOX            GPIOE
-#define VIGOROUSLY_SMART_CAR_BLE_STATE_CLOCK            RCC_AHB1Periph_GPIOE
-
-#define VIGOROUSLY_SMART_CAR_BLE_USARTX                 USART3
-
-extern uint8_t ble_recv_buff[35];
-extern uint8_t ble_recv_len;
-
-void vigorously_smart_car_ble_msg_proc(uint8_t *recv);
+void vigorously_smart_car_ble_msg_proc(uint8_t *recv, uint8_t size);
 
 void vigorously_smart_car_ble_config();
 

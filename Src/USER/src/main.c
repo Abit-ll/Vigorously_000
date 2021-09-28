@@ -45,14 +45,29 @@ int main()
     {
         // if(vigorously_smart_car_wifi_init() == 1)
         // {
+            bsp_abit_delay_ms(1000);
             if(ble_recv_len > 0)
             {
                 printf("ble_recv_buff: %s\r\n", ble_recv_buff);
-                vigorously_smart_car_ble_msg_proc(ble_recv_buff);
+                vigorously_smart_car_ble_msg_proc(ble_recv_buff, ble_recv_len);
+
                 // vigorously_smart_car_wifi_config(connect_msg);
                 // wifi_connect = 1;
 
                 ble_recv_len = 0;
+                memset(ble_recv_buff, 0, 35 * sizeof(uint8_t));
+            }
+            if((wifi_ssid != NULL) && (wifi_psswd != NULL))
+            {
+                strcat(connect_msg, wifi_ssid);
+                strcat(connect_msg, "\",\"");
+                printf("connect_msg: %s\r\n", connect_msg);
+                // strcat(connect_msg, wifi_psswd);
+                // strcat(connect_msg, "\"\r\n");
+                
+
+                memset(wifi_ssid, 0, 20 * sizeof(uint8_t));
+                memset(wifi_psswd, 0, 20 * sizeof(uint8_t));
             }
         // }
     }
@@ -89,8 +104,8 @@ int main()
             if(ble_recv_len > 0)
             {
                 printf("ble_recv_buff: %s\r\n", ble_recv_buff);
-                vigorously_smart_car_ble_msg_proc(ble_recv_buff);
-                // vigorously_smart_car_wifi_config(connect_msg);
+                vigorously_smart_car_ble_msg_proc(ble_recv_buff, ble_recv_len);
+                vigorously_smart_car_wifi_config(connect_msg);
                 // wifi_connect = 1;
 
                 ble_recv_len = 0;
