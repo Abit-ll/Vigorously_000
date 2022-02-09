@@ -30,6 +30,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
 #include "main.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 /** @addtogroup Template_Project
   * @{
@@ -139,10 +141,18 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-// void SysTick_Handler(void)
-// {
- 
-// }
+extern void xPortSysTickHandler(void);
+void SysTick_Handler(void)
+{
+  #if (INCLUDE_xTaskGetSchedulerState == 1)
+    if(xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
+    {
+  #endif /* INCLUDE_xTaskGetSchedulerState */
+      xPortSysTickHandler();
+  #if (INCLUDE_xTaskGetSchedulerState == 1)
+    }
+  #endif /* INCLUDE_xTaskGetSchedulerState */
+}
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */
@@ -167,8 +177,7 @@ void USART1_IRQHandler(void)
 {
   if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
   {
-    wifi_recv_buff[wifi_recv_len] = USART_ReceiveData(USART1);
-    wifi_recv_len++;
+
   }
 }
 
@@ -176,19 +185,25 @@ void USART2_IRQHandler(void)
 {
   if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
   {
-    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
-    wifi_recv_buff[wifi_recv_len] = USART_ReceiveData(USART2);
-    wifi_recv_len++;
+
   }
 }
 
 void USART3_IRQHandler(void)
 {
+  uint16_t ctl = 0;
+
   if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
   {
     USART_ClearITPendingBit(USART3, USART_IT_RXNE);
-    ble_recv_buff[ble_recv_len] = USART_ReceiveData(USART3);
-    ble_recv_len++;
+    vigorously_ble_info.vigorously_recv_buff[vigorously_ble_info.vigorously_recv_len++] = USART_ReceiveData(USART3);
+  }
+
+  if(USART_GetITStatus(USART3, USART_IT_IDLE) != RESET)
+  {
+    ctl = USART3->SR;
+    ctl = USART3->DR;
+    vigorously_ble_info.vigorously_recv_flag = 1;
   }
 }
 
@@ -197,6 +212,16 @@ void USART6_IRQHandler(void)
   if(USART_GetITStatus(USART6, USART_IT_RXNE) != RESET)
   {
 
+  }
+}
+
+void DCMI_IRQHandler(void)
+{
+  if(DCMI_GetITStatus(DCMI_IT_FRAME) == SET)
+  {
+    /*jpeg数据处理*/
+    vigorously_camera_info_process();
+    DCMI_ClearITPendingBit(DCMI_IT_FRAME);
   }
 }
 

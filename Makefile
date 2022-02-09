@@ -45,11 +45,23 @@ Src/Bsp/src/bsp_abit_usart.c \
 Src/Bsp/src/bsp_abit_printf.c \
 Src/Bsp/src/bsp_abit_delay.c \
 Src/Bsp/src/bsp_abit_sys.c \
+Src/Bsp/src/bsp_abit_led.c \
+Src/Bsp/src/bsp_abit_sccb.c \
+Src/FreeRTOS/src/event_groups.c \
+Src/FreeRTOS/src/list.c \
+Src/FreeRTOS/src/port.c \
+Src/FreeRTOS/src/queue.c \
+Src/FreeRTOS/src/stream_buffer.c \
+Src/FreeRTOS/src/tasks.c \
+Src/FreeRTOS/src/timers.c \
+Src/FreeRTOS/src/heap_4.c \
 Src/USER/src/main.c \
-Src/USER/src/vigorously_smart_car_wifi.c
-# Src/USER/src/vigorously_smart_car_ctrl.c \
-# Src/USER/src/vigorously_smart_car_ultrasonic.c \
-# Src/USER/src/vigorously_smart_car_oled_display.c \
+Src/USER/src/vigorously_smart_car_ble.c \
+Src/USER/src/vigorously_smart_car_ctrl.c \
+Src/USER/src/vigorously_smart_car_wifi.c \
+Src/USER/src/vigorously_smart_car_fonts.c \
+Src/USER/src/vigorously_smart_car_lcd_display.c \
+Src/USER/src/vigorously_smart_car_camera.c
 
 ######################################
 
