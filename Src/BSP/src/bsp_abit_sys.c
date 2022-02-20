@@ -164,36 +164,36 @@ void bsp_abit_sys_init()
 
     vigorously_smart_car_lcd_init(&Font8x16);
     vigorously_smart_car_lcd_display_gram_scan(vigorously_smart_car_lcd.vigorously_smart_car_display_scan_mode);
-    vigorously_smart_car_lcd_display_clear(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL);
+    vigorously_smart_car_lcd_display_clear(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_WHITE);
     vigorously_smart_car_camera_init();
     // while (1)
     // {
     //     switch(i)
     //     {
     //         case 0:
-    //             vigorously_smart_car_lcd.vigorously_smart_car_display_current_text_color = VIGOROUSLY_SMART_CAR_DISPLAY_YELLOW;
-    //             vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color = VIGOROUSLY_SMART_CAR_DISPLAY_RED;
+    //             vigorously_smart_car_dislpay_set_color(VIGOROUSLY_SMART_CAR_DISPLAY_YELLOW, VIGOROUSLY_SMART_CAR_DISPLAY_RED);
     //             break;
     //         case 1:
-    //             vigorously_smart_car_lcd.vigorously_smart_car_display_current_text_color = VIGOROUSLY_SMART_CAR_DISPLAY_BLUE;
-    //             vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color = VIGOROUSLY_SMART_CAR_DISPLAY_GREEN;
+    //             vigorously_smart_car_dislpay_set_color(VIGOROUSLY_SMART_CAR_DISPLAY_BLUE, VIGOROUSLY_SMART_CAR_DISPLAY_GREEN);
     //             break;
     //     }
     //     i++;
     //     if(i > 1)
     //         i = 0;
-    //     vigorously_smart_car_dislpay_set_color(vigorously_smart_car_lcd.vigorously_smart_car_display_current_text_color, vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color);
-    //     vigorously_smart_car_lcd_display_clear(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL);
+    //     vigorously_smart_car_lcd_display_clear(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL, vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color);
     //     vigorously_smart_car_lcd_display_en(LINEX(4), "Hello yiyi!");
     //     bsp_abit_delay_ms(2000);
     // }
 
-        vigorously_smart_car_lcd.vigorously_smart_car_display_current_text_color = VIGOROUSLY_SMART_CAR_DISPLAY_YELLOW;
-        vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color = VIGOROUSLY_SMART_CAR_DISPLAY_RED;
-        vigorously_smart_car_dislpay_set_color(vigorously_smart_car_lcd.vigorously_smart_car_display_current_text_color, vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color);
-        vigorously_smart_car_lcd_display_clear(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL);
+        vigorously_smart_car_dislpay_set_color(VIGOROUSLY_SMART_CAR_DISPLAY_YELLOW, VIGOROUSLY_SMART_CAR_DISPLAY_RED);
+        vigorously_smart_car_lcd_display_clear(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_RED);
         vigorously_smart_car_lcd_display_en(LINEX(4), "Hello yiyi!");
         bsp_abit_delay_ms(2000);
+
+        // vigorously_smart_car_camera_display_window(0, 0);
+        // vigorously_smart_car_lcd_display_fill_color((VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL * VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL), VIGOROUSLY_SMART_CAR_DISPLAY_WHITE);
+
+        vigorously_smart_car_lcd_display_clear(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_WHITE);
 
         vigorously_smart_car_camera_start();
         while(1)

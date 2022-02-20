@@ -7,20 +7,17 @@ void vigorously_smart_car_lcd_write_cmd(uint16_t cmd)
 {
     bsp_abit_delay_us(1);
     *(__IO uint16_t *)(VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_CMD) = cmd;
-    // VIGOROUSLY_SMART_CAR_DISAPLAY_LCD->VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_CMD = cmd;
 }
 
 uint16_t vigorously_smart_car_lcd_read_data()
 {
     return (*(__IO uint16_t *)(VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_DATA));
-    // return VIGOROUSLY_SMART_CAR_DISAPLAY_LCD->VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_DATA;
 }
 
 void vigorously_smart_car_lcd_write_data(uint16_t data)
 {
     bsp_abit_delay_us(1);
     *(__IO uint16_t *)(VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_DATA) = data;
-    // VIGOROUSLY_SMART_CAR_DISAPLAY_LCD->VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_DATA = data;
 }
 
 static uint16_t vigorously_smart_car_lcd_read_id()
@@ -38,7 +35,7 @@ static uint16_t vigorously_smart_car_lcd_read_id()
     return data;
 }
 
-static void vigorously_smart_car_lcd_display_open_window(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
+void vigorously_smart_car_lcd_display_open_window(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 {
     vigorously_smart_car_lcd_write_cmd(VIGOROUSLY_SMART_CAR_DISPLAY_CMD_SET_CASET_X);
     vigorously_smart_car_lcd_write_data(x >> 8);
@@ -51,16 +48,6 @@ static void vigorously_smart_car_lcd_display_open_window(uint16_t x, uint16_t y,
     vigorously_smart_car_lcd_write_data(y & 0xFF);
     vigorously_smart_car_lcd_write_data((y + height - 1) >> 8);
     vigorously_smart_car_lcd_write_data((y + height - 1) & 0xFF);
-}
-
-static void vigorously_smart_car_lcd_display_fill_color(uint32_t point, uint16_t color)
-{
-    uint32_t i = 0;
-
-    vigorously_smart_car_lcd_write_cmd(VIGOROUSLY_SMART_CAR_DISPLAY_CMD_SET_PIXEL);
-
-    for(i = 0; i < point; i++)
-        vigorously_smart_car_lcd_write_data(color);
 }
 
 static void vigorously_smart_car_dislpay_chr_en(uint16_t x, uint16_t y, uint8_t ch)
@@ -372,6 +359,16 @@ void vigorously_smart_car_dislpay_set_color(uint16_t textcolor, uint16_t backcol
     vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color = backcolor;
 }
 
+void vigorously_smart_car_lcd_display_fill_color(uint32_t point, uint16_t color)
+{
+    uint32_t i = 0;
+
+    vigorously_smart_car_lcd_write_cmd(VIGOROUSLY_SMART_CAR_DISPLAY_CMD_SET_PIXEL);
+
+    for(i = 0; i < point; i++)
+        vigorously_smart_car_lcd_write_data(color);
+}
+
 void vigorously_smart_car_lcd_display_gram_scan(uint8_t option)
 {
     if(option > 7)
@@ -431,15 +428,15 @@ void vigorously_smart_car_lcd_display_en(uint16_t line, uint8_t *pstr)
     }
 }
 
-void vigorously_smart_car_lcd_display_clear(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
+void vigorously_smart_car_lcd_display_clear(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color)
 {
     vigorously_smart_car_lcd_display_open_window(x, y, width, height);
-    vigorously_smart_car_lcd_display_fill_color(width * height, vigorously_smart_car_lcd.vigorously_smart_car_display_current_back_color);
+    vigorously_smart_car_lcd_display_fill_color(width * height, color);
 }
 
-void vigorously_smart_car_lcd_display_clear_line(uint16_t line)
+void vigorously_smart_car_lcd_display_clear_line(uint16_t line, uint16_t color)
 {
-    vigorously_smart_car_lcd_display_clear(0, line, vigorously_smart_car_lcd.vigorously_smart_car_display_x_length, ((vigorously_smart_car_fonts *)vigorously_smart_car_dislpay_get_font())->Height);
+    vigorously_smart_car_lcd_display_clear(0, line, vigorously_smart_car_lcd.vigorously_smart_car_display_x_length, ((vigorously_smart_car_fonts *)vigorously_smart_car_dislpay_get_font())->Height, color);
 }
 
 void vigorously_smart_car_lcd_init(vigorously_smart_car_fonts *font)

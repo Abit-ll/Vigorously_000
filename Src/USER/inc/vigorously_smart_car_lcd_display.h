@@ -91,6 +91,8 @@ uint16_t vigorously_smart_car_lcd_read_data();
 
 void vigorously_smart_car_lcd_write_data(uint16_t data);
 
+void vigorously_smart_car_lcd_display_open_window(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+
 vigorously_smart_car_fonts *vigorously_smart_car_dislpay_get_font();
 
 void vigorously_smart_car_dislpay_set_font(vigorously_smart_car_fonts *font);
@@ -99,13 +101,15 @@ void vigorously_smart_car_dislpay_get_color(uint16_t *textcolor, uint16_t *backc
 
 void vigorously_smart_car_dislpay_set_color(uint16_t textcolor, uint16_t backcolor);
 
+void vigorously_smart_car_lcd_display_fill_color(uint32_t point, uint16_t color);
+
 void vigorously_smart_car_lcd_display_gram_scan(uint8_t option);
 
 void vigorously_smart_car_lcd_display_en(uint16_t line, uint8_t *pstr);
 
-void vigorously_smart_car_lcd_display_clear(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void vigorously_smart_car_lcd_display_clear(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color);
 
-void vigorously_smart_car_lcd_display_clear_line(uint16_t line);
+void vigorously_smart_car_lcd_display_clear_line(uint16_t line, uint16_t color);
 
 void vigorously_smart_car_lcd_init(vigorously_smart_car_fonts *font);
 
