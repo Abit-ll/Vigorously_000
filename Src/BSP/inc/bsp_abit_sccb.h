@@ -14,8 +14,7 @@
 #define BSP_ABIT_SCCB_SCL_PIN                           GPIO_Pin_6
 #define BSP_ABIT_SCCB_SDA_PIN                           GPIO_Pin_7
 
-#define BSP_ABIT_SCCB_SDA_MODE_IN()                     {BSP_ABIT_SCCB_SCL_SDA_GPIOX->MODER &= ~(3 << (7 * 2)); BSP_ABIT_SCCB_SCL_SDA_GPIOX->MODER |= (((uint32_t)0) << (7 * 2));}
-#define BSP_ABIT_SCCB_SDA_MODE_OUT()                    {BSP_ABIT_SCCB_SCL_SDA_GPIOX->MODER &= ~(3 << (7 * 2)); BSP_ABIT_SCCB_SCL_SDA_GPIOX->MODER |= (((uint32_t)1) << (7 * 2));}
+#define BSP_ABIT_SCCB_SDA_SET_MODE(x)                   {BSP_ABIT_SCCB_SCL_SDA_GPIOX->MODER &= ~(GPIO_MODER_MODER0 << (7 * 2)); BSP_ABIT_SCCB_SCL_SDA_GPIOX->MODER |= (((uint32_t)x) << (7 * 2));}
 
 #define BSP_ABIT_SCCB_SCL_OUT_HIGHT                     (BSP_ABIT_SCCB_SCL_SDA_GPIOX->BSRRL = BSP_ABIT_SCCB_SCL_PIN)
 #define BSP_ABIT_SCCB_SCL_OUT_LOW                       (BSP_ABIT_SCCB_SCL_SDA_GPIOX->BSRRH = BSP_ABIT_SCCB_SCL_PIN)
@@ -25,6 +24,12 @@
 #define BSP_ABIT_SCCB_SDA_IN                            (((BSP_ABIT_SCCB_SCL_SDA_GPIOX->IDR & BSP_ABIT_SCCB_SDA_PIN) != 0) ? 1 : 0)
 
 #define BSP_ABIT_SCCB_ID                                0x60
+
+typedef enum
+{
+    mode_in = 0,
+    mode_out
+}Mode_Type;
 
 uint8_t bsp_abit_sccb_read_reg(uint8_t reg);
 

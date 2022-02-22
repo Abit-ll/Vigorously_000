@@ -467,14 +467,36 @@ uint8_t vigorously_smart_car_camera_yuv422_reg_tbl[][2]=
 	0x00, 0x00,
 };
 
+static void vigorously_smart_car_camera_dma_config()
+{
+	DMA_InitTypeDef DMA_InitStruct;
+
+	RCC_AHB1PeriphClockCmd(VIGOROUSLY_SMART_CAR_CAMERA_DMA_CLOCK, ENABLE);
+
+    DMA_InitStruct.DMA_Channel = DMA_Channel_1;
+    DMA_InitStruct.DMA_PeripheralBaseAddr = (uint32_t)&DCMI->DR;
+    DMA_InitStruct.DMA_Memory0BaseAddr = (uint32_t)&(*(__IO uint16_t *)VIGOROUSLY_SMART_CAR_DISPLAY_LCD_DATA);
+    DMA_InitStruct.DMA_DIR = DMA_DIR_PeripheralToMemory;
+    DMA_InitStruct.DMA_BufferSize = 1;
+    DMA_InitStruct.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    DMA_InitStruct.DMA_MemoryInc = DMA_MemoryInc_Disable;
+    DMA_InitStruct.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
+    DMA_InitStruct.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+    DMA_InitStruct.DMA_Mode = DMA_Mode_Circular;
+    DMA_InitStruct.DMA_Priority = DMA_Priority_High;
+    DMA_InitStruct.DMA_FIFOMode = DMA_FIFOMode_Enable;
+    DMA_InitStruct.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+    DMA_InitStruct.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+    DMA_InitStruct.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+    DMA_Init(DMA2_Stream1, &DMA_InitStruct);
+}
+
 static void vigorously_smart_car_camera_dcmi_config()
 {
     DCMI_InitTypeDef DCMI_InitStruct;
-    DMA_InitTypeDef DMA_InitStruct;
     NVIC_InitTypeDef NVIC_InitStruct;
 
-    RCC_AHB2PeriphClockCmd(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_DCMI_CLOCK, ENABLE);
-    RCC_AHB1PeriphClockCmd(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_DMA_CLOCK, ENABLE);
+    RCC_AHB2PeriphClockCmd(VIGOROUSLY_SMART_CAR_CAMERA_DCMI_CLOCK, ENABLE);
 
     DCMI_InitStruct.DCMI_CaptureMode = DCMI_CaptureMode_Continuous;
     DCMI_InitStruct.DCMI_SynchroMode = DCMI_SynchroMode_Hardware;
@@ -494,23 +516,6 @@ static void vigorously_smart_car_camera_dcmi_config()
     NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 2;
     NVIC_InitStruct.NVIC_IRQChannelSubPriority = 3;
     NVIC_Init(&NVIC_InitStruct);
-
-    DMA_InitStruct.DMA_Channel = DMA_Channel_1;
-    DMA_InitStruct.DMA_PeripheralBaseAddr = (uint32_t)&DCMI->DR;
-    DMA_InitStruct.DMA_Memory0BaseAddr = (uint32_t)&(*(__IO uint16_t *)VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_DATA);
-    DMA_InitStruct.DMA_DIR = DMA_DIR_PeripheralToMemory;
-    DMA_InitStruct.DMA_BufferSize = 1;
-    DMA_InitStruct.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-    DMA_InitStruct.DMA_MemoryInc = DMA_MemoryInc_Disable;
-    DMA_InitStruct.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
-    DMA_InitStruct.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
-    DMA_InitStruct.DMA_Mode = DMA_Mode_Circular;
-    DMA_InitStruct.DMA_Priority = DMA_Priority_High;
-    DMA_InitStruct.DMA_FIFOMode = DMA_FIFOMode_Enable;
-    DMA_InitStruct.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
-    DMA_InitStruct.DMA_MemoryBurst = DMA_MemoryBurst_Single;
-    DMA_InitStruct.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
-    DMA_Init(DMA2_Stream1, &DMA_InitStruct);
 }
 
 static void vigorously_smart_car_camera_jpeg_mode()
@@ -536,66 +541,65 @@ static void vigorously_smart_car_camera_gpio_config()
 {
     GPIO_InitTypeDef GPIO_InitStruct;
 
-    RCC_AHB1PeriphClockCmd(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_HREF_PCLK_XCLK_CLOCK | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_VSYNC_D5_CLOCK |\
-                           VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_D1_D2_D3_D4_CLOCK | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D6_D7_CLOCK |\
-                           VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_CH1_CLOCK | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PWDN_CLOCK, ENABLE);
+    RCC_AHB1PeriphClockCmd(VIGOROUSLY_SMART_CAR_CAMERA_HREF_PCLK_XCLK_CLOCK | VIGOROUSLY_SMART_CAR_CAMERA_VSYNC_D5_CLOCK |\
+                           VIGOROUSLY_SMART_CAR_CAMERA_D0_D1_D2_D3_D4_CLOCK | VIGOROUSLY_SMART_CAR_CAMERA_D6_D7_CLOCK |\
+                           VIGOROUSLY_SMART_CAR_CAMERA_CH1_CLOCK | VIGOROUSLY_SMART_CAR_CAMERA_PWDN_CLOCK, ENABLE);
     
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_HREF_PCLK_XCLK_GPIOX, GPIO_PinSource4, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_HREF_PCLK_XCLK_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
-    // GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_HREF_PCLK_XCLK_GPIOX, GPIO_PinSource8, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_VSYNC_D5_GPIOX, GPIO_PinSource7, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_VSYNC_D5_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource7, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource8, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource9, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource11, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D6_D7_GPIOX, GPIO_PinSource5, GPIO_AF_DCMI);
-    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D6_D7_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_HREF_PCLK_XCLK_GPIOX, GPIO_PinSource4, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_HREF_PCLK_XCLK_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_VSYNC_D5_GPIOX, GPIO_PinSource7, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_VSYNC_D5_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource7, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource8, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource9, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_D0_D1_D2_D3_D4_GPIOX, GPIO_PinSource11, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_D6_D7_GPIOX, GPIO_PinSource5, GPIO_AF_DCMI);
+    GPIO_PinAFConfig(VIGOROUSLY_SMART_CAR_CAMERA_D6_D7_GPIOX, GPIO_PinSource6, GPIO_AF_DCMI);
     
-    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_HREF_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PCLK_PIN);
+    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_CAMERA_HREF_PIN | VIGOROUSLY_SMART_CAR_CAMERA_PCLK_PIN);
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_Init(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_HREF_PCLK_XCLK_GPIOX, &GPIO_InitStruct);
+    GPIO_Init(VIGOROUSLY_SMART_CAR_CAMERA_HREF_PCLK_XCLK_GPIOX, &GPIO_InitStruct);
 
-    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_VSYNC_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D5_PIN);
+    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_CAMERA_VSYNC_PIN | VIGOROUSLY_SMART_CAR_CAMERA_D5_PIN);
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_Init(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_VSYNC_D5_GPIOX, &GPIO_InitStruct);
+    GPIO_Init(VIGOROUSLY_SMART_CAR_CAMERA_VSYNC_D5_GPIOX, &GPIO_InitStruct);
 
-    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D1_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D2_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D3_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D4_PIN);
+    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_CAMERA_D0_PIN | VIGOROUSLY_SMART_CAR_CAMERA_D1_PIN | VIGOROUSLY_SMART_CAR_CAMERA_D2_PIN | VIGOROUSLY_SMART_CAR_CAMERA_D3_PIN | VIGOROUSLY_SMART_CAR_CAMERA_D4_PIN);
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_Init(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D0_D1_D2_D3_D4_GPIOX, &GPIO_InitStruct);
+    GPIO_Init(VIGOROUSLY_SMART_CAR_CAMERA_D0_D1_D2_D3_D4_GPIOX, &GPIO_InitStruct);
 
-    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D6_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D7_PIN);
+    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_CAMERA_D6_PIN | VIGOROUSLY_SMART_CAR_CAMERA_D7_PIN);
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_Init(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_D6_D7_GPIOX, &GPIO_InitStruct);
+    GPIO_Init(VIGOROUSLY_SMART_CAR_CAMERA_D6_D7_GPIOX, &GPIO_InitStruct);
 
-    GPIO_InitStruct.GPIO_Pin = VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_CH1_PIN;
+    GPIO_InitStruct.GPIO_Pin = VIGOROUSLY_SMART_CAR_CAMERA_CH1_PIN;
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_Init(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_CH1_GPIOX, &GPIO_InitStruct);
+    GPIO_Init(VIGOROUSLY_SMART_CAR_CAMERA_CH1_GPIOX, &GPIO_InitStruct);
 
-    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PWDN_PIN | VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_RESET_PIN);
+    GPIO_InitStruct.GPIO_Pin = (VIGOROUSLY_SMART_CAR_CAMERA_PWDN_PIN | VIGOROUSLY_SMART_CAR_CAMERA_RESET_PIN);
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_Init(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PWDN_RESET_GPIOX, &GPIO_InitStruct);
+    GPIO_Init(VIGOROUSLY_SMART_CAR_CAMERA_PWDN_RESET_GPIOX, &GPIO_InitStruct);
 
-    VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_CH1_LOW;
+    VIGOROUSLY_SMART_CAR_CAMERA_CH1_LOW;
 }
 
 static uint8_t vigorously_smart_car_camera_set_outsize(uint16_t width, uint16_t height)
@@ -637,9 +641,7 @@ static void vigorously_smart_car_camera_display_window(uint16_t x, uint16_t y)
 
 void vigorously_camera_info_process()
 {
-    // vigorously_smart_car_camera_display_window(0, 0);
-	vigorously_smart_car_lcd_display_open_window(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL);
-    // *(__IO uint16_t *)(VIGOROUSLY_SMART_CAR_DISAPLAY_LCD_CMD) = VIGOROUSLY_SMART_CAR_DISPLAY_CMD_SET_PIXEL;
+	vigorously_smart_car_lcd_display_open_window(VIGOROUSLY_SMART_CAR_DISPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL);
 	vigorously_smart_car_lcd_write_cmd(VIGOROUSLY_SMART_CAR_DISPLAY_CMD_SET_PIXEL);
 }
 
@@ -652,9 +654,7 @@ void vigorously_smart_car_camera_stop()
 
 void vigorously_smart_car_camera_start()
 {
-    // vigorously_smart_car_camera_display_window(0, 0);
-	vigorously_smart_car_lcd_display_open_window(VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISAPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL);
-    
+	vigorously_smart_car_lcd_display_open_window(VIGOROUSLY_SMART_CAR_DISPLAY_WINDOW_X_START, VIGOROUSLY_SMART_CAR_DISPLAY_WINDOW_Y_START, VIGOROUSLY_SMART_CAR_DISPLAY_LESS_PIXEL, VIGOROUSLY_SMART_CAR_DISPLAY_MORE_PIXEL);
 	vigorously_smart_car_lcd_write_cmd(VIGOROUSLY_SMART_CAR_DISPLAY_CMD_SET_PIXEL);
     DMA_Cmd(DMA2_Stream1, ENABLE);
     DCMI_CaptureCmd(ENABLE);
@@ -667,30 +667,30 @@ uint8_t  vigorously_smart_car_camera_init()
 
     vigorously_smart_car_camera_gpio_config();
 
-    GPIO_ResetBits(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PWDN_RESET_GPIOX, VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PWDN_PIN);
+    GPIO_ResetBits(VIGOROUSLY_SMART_CAR_CAMERA_PWDN_RESET_GPIOX, VIGOROUSLY_SMART_CAR_CAMERA_PWDN_PIN);
     bsp_abit_delay_ms(10);
-    GPIO_ResetBits(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PWDN_RESET_GPIOX, VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_RESET_PIN);
+    GPIO_ResetBits(VIGOROUSLY_SMART_CAR_CAMERA_PWDN_RESET_GPIOX, VIGOROUSLY_SMART_CAR_CAMERA_RESET_PIN);
     bsp_abit_delay_ms(10);
-    GPIO_SetBits(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PWDN_RESET_GPIOX, VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_RESET_PIN);
+    GPIO_SetBits(VIGOROUSLY_SMART_CAR_CAMERA_PWDN_RESET_GPIOX, VIGOROUSLY_SMART_CAR_CAMERA_RESET_PIN);
 
     bsp_abit_sccb_init();
-    bsp_abit_sccb_write_reg(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_DSP_RA_DLMT, 0x01);
-    bsp_abit_sccb_write_reg(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_SENSOR_COM7, 0x80);
+    bsp_abit_sccb_write_reg(VIGOROUSLY_SMART_CAR_CAMERA_DSP_RA_DLMT, 0x01);
+    bsp_abit_sccb_write_reg(VIGOROUSLY_SMART_CAR_CAMERA_SENSOR_COM7, 0x80);
     bsp_abit_delay_ms(50);
-    reg = bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_SENSOR_MIDH);
+    reg = bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_CAMERA_SENSOR_MIDH);
     reg <<= 8;
-    reg |= bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_SENSOR_MIDL);
+    reg |= bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_CAMERA_SENSOR_MIDL);
     printf("MID: %x\r\n", reg);
-    if(reg != VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_MID)
+    if(reg != VIGOROUSLY_SMART_CAR_CAMERA_MID)
     {
         printf("reg1: %x\r\n", reg);
         return 1;
     }
-    reg = bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_SENSOR_PIDH);
+    reg = bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_CAMERA_SENSOR_PIDH);
     reg <<= 8;
-    reg |= bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_SENSOR_PIDL);
+    reg |= bsp_abit_sccb_read_reg(VIGOROUSLY_SMART_CAR_CAMERA_SENSOR_PIDL);
     printf("PID: %x\r\n", reg);
-    if((reg != VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PID1) & (reg != VIGOROUSLY_SMART_CAR_DISAPLAY_CAMERA_PID2))
+    if((reg != VIGOROUSLY_SMART_CAR_CAMERA_PID1) & (reg != VIGOROUSLY_SMART_CAR_CAMERA_PID2))
     {
         printf("reg2: %x\r\n", reg);
         return 2;
@@ -706,6 +706,7 @@ uint8_t  vigorously_smart_car_camera_init()
     vigorously_smart_car_camera_rgb565_mode();
 
     vigorously_smart_car_camera_dcmi_config();
+	vigorously_smart_car_camera_dma_config();
 
     vigorously_smart_car_camera_set_outsize(vigorously_smart_car_lcd.vigorously_smart_car_display_x_length, vigorously_smart_car_lcd.vigorously_smart_car_display_y_length);
 

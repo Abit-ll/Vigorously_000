@@ -5,7 +5,7 @@ static uint8_t bsp_abit_sccb_read_byte()
     uint8_t ret;
     uint8_t i;
 
-    BSP_ABIT_SCCB_SDA_MODE_IN();
+    BSP_ABIT_SCCB_SDA_SET_MODE(GPIO_Mode_IN);
     for(i = 0; i < 8; i++)
     {
         bsp_abit_delay_us(50);
@@ -16,7 +16,7 @@ static uint8_t bsp_abit_sccb_read_byte()
         bsp_abit_delay_us(50);
         BSP_ABIT_SCCB_SCL_OUT_LOW;
     }
-    BSP_ABIT_SCCB_SDA_MODE_OUT();
+    BSP_ABIT_SCCB_SDA_SET_MODE(GPIO_Mode_OUT);
 
     return ret;
 }
@@ -40,7 +40,7 @@ static uint8_t bsp_abit_sccb_write_byte(uint8_t data)
         BSP_ABIT_SCCB_SCL_OUT_LOW;
     }
 
-    BSP_ABIT_SCCB_SDA_MODE_IN();
+    BSP_ABIT_SCCB_SDA_SET_MODE(GPIO_Mode_IN);
     bsp_abit_delay_us(50);
     BSP_ABIT_SCCB_SCL_OUT_HIGHT;
     bsp_abit_delay_us(50);
@@ -49,7 +49,7 @@ static uint8_t bsp_abit_sccb_write_byte(uint8_t data)
     else
         ret = 0;
     BSP_ABIT_SCCB_SCL_OUT_LOW;
-    BSP_ABIT_SCCB_SDA_MODE_OUT();
+    BSP_ABIT_SCCB_SDA_SET_MODE(GPIO_Mode_OUT);
 
     return ret;
 }
@@ -141,5 +141,5 @@ void bsp_abit_sccb_init()
 
     GPIO_SetBits(BSP_ABIT_SCCB_SCL_SDA_GPIOX, (BSP_ABIT_SCCB_SCL_PIN | BSP_ABIT_SCCB_SDA_PIN));
 
-    BSP_ABIT_SCCB_SDA_MODE_OUT();
+    BSP_ABIT_SCCB_SDA_SET_MODE(GPIO_Mode_OUT);
 }
