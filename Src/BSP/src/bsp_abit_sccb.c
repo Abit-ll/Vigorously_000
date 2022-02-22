@@ -9,7 +9,7 @@ static uint8_t bsp_abit_sccb_read_byte()
     for(i = 0; i < 8; i++)
     {
         bsp_abit_delay_us(50);
-        BSP_ABIT_SCCB_SCL_OUT_HIGHT;
+        BSP_ABIT_SCCB_SCL_OUT_HIGH;
         ret <<= 1;
         if(BSP_ABIT_SCCB_SDA_IN)
             ret++;
@@ -29,20 +29,20 @@ static uint8_t bsp_abit_sccb_write_byte(uint8_t data)
     for(i = 0; i < 8; i++)
     {
         if(data & 0x80)
-            BSP_ABIT_SCCB_SDA_OUT_HIGHT;
+            BSP_ABIT_SCCB_SDA_OUT_HIGH;
         else
             BSP_ABIT_SCCB_SDA_OUT_LOW;
 
         data <<= 1;
         bsp_abit_delay_us(50);
-        BSP_ABIT_SCCB_SCL_OUT_HIGHT;
+        BSP_ABIT_SCCB_SCL_OUT_HIGH;
         bsp_abit_delay_us(50);
         BSP_ABIT_SCCB_SCL_OUT_LOW;
     }
 
     BSP_ABIT_SCCB_SDA_SET_MODE(GPIO_Mode_IN);
     bsp_abit_delay_us(50);
-    BSP_ABIT_SCCB_SCL_OUT_HIGHT;
+    BSP_ABIT_SCCB_SCL_OUT_HIGH;
     bsp_abit_delay_us(50);
     if(BSP_ABIT_SCCB_SDA_IN)
         ret = 1;
@@ -57,8 +57,8 @@ static uint8_t bsp_abit_sccb_write_byte(uint8_t data)
 static void bsp_abit_sccb_no_ack()
 {
     bsp_abit_delay_us(50);
-    BSP_ABIT_SCCB_SDA_OUT_HIGHT;
-    BSP_ABIT_SCCB_SCL_OUT_HIGHT;
+    BSP_ABIT_SCCB_SDA_OUT_HIGH;
+    BSP_ABIT_SCCB_SCL_OUT_HIGH;
     bsp_abit_delay_us(50);
     BSP_ABIT_SCCB_SCL_OUT_LOW;
     bsp_abit_delay_us(50);
@@ -70,16 +70,16 @@ static void bsp_abit_sccb_stop()
 {
     BSP_ABIT_SCCB_SDA_OUT_LOW;
     bsp_abit_delay_us(50);
-    BSP_ABIT_SCCB_SCL_OUT_HIGHT;
+    BSP_ABIT_SCCB_SCL_OUT_HIGH;
     bsp_abit_delay_us(50);
-    BSP_ABIT_SCCB_SDA_OUT_HIGHT;
+    BSP_ABIT_SCCB_SDA_OUT_HIGH;
     bsp_abit_delay_us(50);
 }
 
 static void bsp_abit_sccb_start()
 {
-    BSP_ABIT_SCCB_SDA_OUT_HIGHT;
-    BSP_ABIT_SCCB_SCL_OUT_HIGHT;
+    BSP_ABIT_SCCB_SDA_OUT_HIGH;
+    BSP_ABIT_SCCB_SCL_OUT_HIGH;
     bsp_abit_delay_us(50);
     BSP_ABIT_SCCB_SDA_OUT_LOW;
     bsp_abit_delay_us(50);
