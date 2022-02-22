@@ -25,12 +25,6 @@
 
 #define BSP_ABIT_SCCB_ID                                0x60
 
-typedef enum
-{
-    mode_in = 0,
-    mode_out
-}Mode_Type;
-
 uint8_t bsp_abit_sccb_read_reg(uint8_t reg);
 
 uint8_t bsp_abit_sccb_write_reg(uint8_t reg, uint8_t data);
